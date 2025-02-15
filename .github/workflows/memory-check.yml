@@ -1,0 +1,30 @@
+name: Memory Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  valgrind:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install Valgrind
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y valgrind
+        sudo apt-get install -y libcs50-dev
+
+    - name: Memory Leak Check
+      run: |
+        for dir in week*/*/ ; do
+          if [ -f "$dir"/*.c ]; then
+            cd "$dir"
+            gcc -g -o program *.c -lcs50
+            valgrind --leak-check=full ./program || true
+            cd ../..
+          fi
+        done

@@ -1,0 +1,38 @@
+name: C Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install CS50 Library
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libcs50-dev
+
+    - name: Build
+      run: |
+        for dir in week*/*/ ; do
+          if [ -f "$dir"/*.c ]; then
+            cd "$dir"
+            gcc -o program *.c -lcs50
+            cd ../..
+          fi
+        done
+
+    - name: Test
+      run: |
+        for dir in week*/*/ ; do
+          if [ -f "$dir"/program ]; then
+            cd "$dir"
+            ./program || true
+            cd ../..
+          fi
+        done

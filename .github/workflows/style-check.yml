@@ -1,0 +1,23 @@
+name: Code Style Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  style50:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install Style50
+      run: |
+        python3 -m pip install style50
+
+    - name: Style Check
+      run: |
+        for file in week*/*/*.c; do
+          style50 "$file" || true
+        done
