@@ -12,10 +12,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Install CS50 Library
+    - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libcs50-dev
+        sudo apt-get install -y gcc make
+        
+        # CS50 Library kurulumu
+        git clone https://github.com/cs50/libcs50.git
+        cd libcs50
+        sudo make install
+        cd ..
 
     - name: Build
       run: |
