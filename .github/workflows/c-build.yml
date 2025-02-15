@@ -28,7 +28,7 @@ jobs:
         for dir in week*/*/ ; do
           if [ -f "$dir"/*.c ]; then
             cd "$dir"
-            gcc -o program *.c -lcs50
+            gcc -o program *.c -lcs50 -lm
             cd ../..
           fi
         done

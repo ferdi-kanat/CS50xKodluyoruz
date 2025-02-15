@@ -12,18 +12,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Install Valgrind
+    - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y valgrind
-        sudo apt-get install -y libcs50-dev
+        sudo apt-get install -y valgrind gcc make
+        
+        # CS50 Library kurulumu
+        git clone https://github.com/cs50/libcs50.git
+        cd libcs50
+        sudo make install
+        cd ..
 
     - name: Memory Leak Check
       run: |
         for dir in week*/*/ ; do
           if [ -f "$dir"/*.c ]; then
             cd "$dir"
-            gcc -g -o program *.c -lcs50
+            gcc -g -o program *.c -lcs50 -lm
             valgrind --leak-check=full ./program || true
             cd ../..
           fi
