@@ -1,3 +1,6 @@
 *.exe
 temp/
 .vscode/
+*.o
+*.out
+.DS_Store
