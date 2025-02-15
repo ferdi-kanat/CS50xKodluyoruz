@@ -1,19 +1,19 @@
 # CS50 Problem Sets Solutions
 
-Bu repository, Harvard Üniversitesi'nin CS50 dersinin problem setleri için çözümlerimi içermektedir.
+This repository contains my solutions for Harvard University's CS50 course problem sets.
 
-## Proje Yapısı
+## Project Structure
 
-- `week1/` - Hafta 1 çözümleri
-  - `cash/` - Nakit problemi
-  - `credit/` - Kredi kartı problemi
-  - `mario/` - Mario problemi
-  - `mario_advanced/` - Gelişmiş Mario problemi
+- `week1/` - Week 1 solutions
+  - `cash/` - Cash problem
+  - `credit/` - Credit card problem
+  - `mario/` - Mario problem
+  - `mario_advanced/` - Advanced Mario problem
 
-- `week2/` - Hafta 2 çözümleri
-  - `caesar/` - Sezar şifreleme
-  - `vigenere/` - Vigenère şifreleme
-  - Çeşitli sıralama algoritmaları:
+- `week2/` - Week 2 solutions
+  - `caesar/` - Caesar cipher
+  - `vigenere/` - Vigenère cipher
+  - Various sorting algorithms:
     - `binary_search/`
     - `bubble_sort/`
     - `insertion_sort/`
@@ -21,11 +21,17 @@ Bu repository, Harvard Üniversitesi'nin CS50 dersinin problem setleri için ç�
     - `merge_sort/`
     - `selection_sort/`
 
-## Kurulum
+## Installation
 
 ```bash
-git clone <repository-url>
-cd cs50-solutions
+git clone https://github.com/ferdi-kanat/CS50xKodluyoruz.git
+cd CS50xKodluyoruz
+```
 
-## Derleme ve Çalıştırma
-gcc <program-adı>.c -o <program-adı> -lcs50
+## Compilation and Running
+
+Each program uses the CS50 library. To compile:
+
+```bash
+gcc <program-name>.c -o <program-name> -lcs50
+```
