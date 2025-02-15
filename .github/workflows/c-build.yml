@@ -9,31 +9,39 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
     
     - name: Install Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y gcc make
-        
-        # CS50 Library kurulumu
+      retries: 3
+      
+    - name: Install CS50 Library
+      run: |
         git clone https://github.com/cs50/libcs50.git
         cd libcs50
         sudo make install
         cd ..
+      retries: 3
 
     - name: Build
       run: |
         for dir in week*/*/ ; do
           if [ -f "$dir"/*.c ]; then
             cd "$dir"
-            gcc -o program *.c -lcs50 -lm
+            gcc -o program *.c -lcs50 -lm || exit 1
             cd ../..
           fi
         done
 
     - name: Test
+      if: success()
       run: |
         for dir in week*/*/ ; do
           if [ -f "$dir"/program ]; then
