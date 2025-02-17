@@ -8,9 +8,11 @@
 // Constants
 #define MIN_HEIGHT 1   // Minimum allowed height for the pyramid
 #define MAX_HEIGHT 8   // Maximum allowed height for the pyramid
+#define MAX_TRIES 3    // Maximum allowed attempts for valid input
 
-// Function prototype
+// Function prototypes
 void print_pyramid(const int height);
+int get_valid_height(void);
 
 /**
  * Program to print a pyramid pattern
@@ -19,22 +21,47 @@ void print_pyramid(const int height);
  */
 int main(void)
 {
-    // Get height between MIN_HEIGHT and MAX_HEIGHT
-    int height;
-    do
+    // Get validated height
+    int height = get_valid_height();
+    if (height == -1)
     {
-        height = get_int("Height (1-8): ");
-        if (height < MIN_HEIGHT || height > MAX_HEIGHT)
-        {
-            printf("Error: Invalid height. Enter a value between %d and %d.\n", MIN_HEIGHT, MAX_HEIGHT);
-        }
+        printf("Too many invalid attempts. Exiting program.\n");
+        return 1;
     }
-    while (height < MIN_HEIGHT || height > MAX_HEIGHT);
 
     // Print the pyramid
     print_pyramid(height);
 
     return 0;
+}
+
+/**
+ * Gets and validates pyramid height from user input
+ * @return validated height, or -1 if max tries exceeded
+ */
+int get_valid_height(void)
+{
+    int tries = 0;
+    int height;
+    
+    do
+    {
+        height = get_int("Height (1-%d): ", MAX_HEIGHT);
+        
+        if (height < MIN_HEIGHT || height > MAX_HEIGHT)
+        {
+            printf("Height must be between %d and %d!\n", MIN_HEIGHT, MAX_HEIGHT);
+            tries++;
+            
+            if (tries >= MAX_TRIES)
+            {
+                return -1;
+            }
+        }
+    }
+    while (height < MIN_HEIGHT || height > MAX_HEIGHT);
+    
+    return height;
 }
 
 /**

@@ -64,5 +64,5 @@ static void calculate_change(float cash)
         coin_count += cents / denominations[i];
         cents %= denominations[i];
     }
-    printf("%d\n", coin_count); // Added newline for clean output
+    printf("%d\n", coin_count);
 }

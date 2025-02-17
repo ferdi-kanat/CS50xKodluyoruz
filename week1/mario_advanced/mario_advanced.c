@@ -19,6 +19,7 @@
 #define MIN_HEIGHT 1   // Minimum allowed height for the pyramid
 #define MAX_HEIGHT 8   // Maximum allowed height for the pyramid
 #define GAP_WIDTH 2    // Width of the gap between pyramids
+#define MAX_TRIES 3    // Maximum allowed attempts for valid input
 
 // Function prototypes
 static int get_valid_height(void);
@@ -30,6 +31,12 @@ int main(void)
 {   
     printf("Welcome to Mario Pyramid Builder!\n\n");
     int height = get_valid_height();
+    
+    if (height == -1)
+    {
+        return 1;
+    }
+    
     print_pyramids(height);
     return 0;
 }
@@ -42,14 +49,24 @@ int main(void)
  */
 static int get_valid_height(void)
 {
+    int tries = 0;
     int height;
+    
     do {
         height = get_int("Height (between %d and %d): ", MIN_HEIGHT, MAX_HEIGHT);
         if (height < MIN_HEIGHT || height > MAX_HEIGHT)
         {
             printf("Invalid input. Please enter a value between %d and %d.\n", MIN_HEIGHT, MAX_HEIGHT);
+            tries++;
+            
+            if (tries >= MAX_TRIES)
+            {
+                printf("Too many invalid attempts. Exiting program.\n");
+                return -1;
+            }
         }
     } while (height < MIN_HEIGHT || height > MAX_HEIGHT);
+    
     return height;
 }
 
