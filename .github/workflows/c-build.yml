@@ -17,42 +17,27 @@ jobs:
         fetch-depth: 1
     
     - name: Install Dependencies
-      uses: nick-invision/retry@v2
-      with:
-        timeout_minutes: 3
-        max_attempts: 3
-        command: |
-          sudo apt-get update
-          sudo apt-get install -y gcc make
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc make
       
     - name: Install CS50 Library
-      uses: nick-invision/retry@v2
-      with:
-        timeout_minutes: 3
-        max_attempts: 3
-        command: |
-          git clone https://github.com/cs50/libcs50.git
-          cd libcs50
-          sudo make install
-          cd ..
-
-    - name: Build
       run: |
-        for dir in week*/*/ ; do
-          if [ -f "$dir"/*.c ]; then
-            cd "$dir"
-            gcc -o program *.c -lcs50 -lm || exit 1
-            cd ../..
-          fi
-        done
+        git clone --depth=1 https://github.com/cs50/libcs50.git
+        cd libcs50
+        sudo make install
+        cd ..
 
-    - name: Test
-      if: success()
+    - name: Build and Test
       run: |
-        for dir in week*/*/ ; do
-          if [ -f "$dir"/program ]; then
-            cd "$dir"
-            ./program || true
-            cd ../..
-          fi
-        done
+        # Build all C programs in parallel
+        find week*/*/ -name "*.c" -exec dirname {} \; | sort -u | parallel -j4 '
+          cd {}
+          gcc -o program *.c -lcs50 -lm
+        ' || exit 1
+        
+        # Run tests in parallel 
+        find week*/*/ -name "program" -exec dirname {} \; | parallel -j4 '
+          cd {}
+          timeout 30s ./program || true
+        '
