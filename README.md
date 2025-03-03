@@ -30,6 +30,14 @@ This repository contains my solutions for Harvard University's CS50 course probl
     - `merge_sort/`
     - `selection_sort/`
 
+- `week3/` - Week 3 solutions
+  - `collatz/` - Collatz conjecture
+  - `file_pointers/` - File pointers
+  - `recover/` - Recover JPEG files
+  - `resize/` - Resize BMP files
+  - `resize_advanced/` - Advanced resize BMP files
+  - `Whodunit/` - Whodunit game
+
 ## 📋 Prerequisites
 - GCC Compiler
 - CS50 Library
